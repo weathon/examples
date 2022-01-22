@@ -34,8 +34,8 @@ flags.DEFINE_integer('epochs', 1, 'Number of epochs')
 flags.DEFINE_string('path', None, 'Path to the data folder')
 flags.DEFINE_boolean('enable_function', True, 'Enable Function?')
 
-IMG_WIDTH = 256
-IMG_HEIGHT = 256
+IMG_WIDTH = 320
+IMG_HEIGHT = 240
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
 
@@ -273,14 +273,12 @@ def unet_generator(output_channels, norm_type='batchnorm'):
       downsample(512, 4, norm_type),  # (bs, 8, 8, 512)
       downsample(512, 4, norm_type),  # (bs, 4, 4, 512)
       downsample(512, 4, norm_type),  # (bs, 2, 2, 512)
-      downsample(512, 4, norm_type),  # (bs, 1, 1, 512)
   ]
 
   up_stack = [
       upsample(512, 4, norm_type, apply_dropout=True),  # (bs, 2, 2, 1024)
       upsample(512, 4, norm_type, apply_dropout=True),  # (bs, 4, 4, 1024)
       upsample(512, 4, norm_type, apply_dropout=True),  # (bs, 8, 8, 1024)
-      upsample(512, 4, norm_type),  # (bs, 16, 16, 1024)
       upsample(256, 4, norm_type),  # (bs, 32, 32, 512)
       upsample(128, 4, norm_type),  # (bs, 64, 64, 256)
       upsample(64, 4, norm_type),  # (bs, 128, 128, 128)
